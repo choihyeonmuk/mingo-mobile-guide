@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MINGO · 모바일 앱 접속 안내</title>
+<meta name="description" content="Expo Go에서 QR 코드를 스캔해 MINGO 모바일 앱 미리보기를 실행하세요." />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<style>
+  :root{
+    --paper:#FDFDFC; --paper2:#F7F7F5; --paper3:#F0F0EE;
+    --ink:#2E2E2E; --ink2:#545454; --muted:#737373;
+    --rule:#D1D1CF; --danger:#8A1F1F; --white:#FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+    background:var(--paper); color:var(--ink);
+    -webkit-font-smoothing:antialiased; line-height:1.6;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:0 24px;}
+  a{color:inherit;}
+
+  /* header */
+  header{border-bottom:1px solid var(--rule); background:var(--paper);}
+  .nav{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .wordmark{font-size:20px; font-weight:800; letter-spacing:0.28em;}
+  .nav .tag{font-size:12px; letter-spacing:0.14em; color:var(--muted); text-transform:uppercase;}
+
+  /* hero */
+  .hero{padding:64px 0 40px; border-bottom:1px solid var(--rule);}
+  .eyebrow{font-size:12px; letter-spacing:0.22em; color:var(--muted); text-transform:uppercase; margin-bottom:18px;}
+  h1{font-size:clamp(30px,6vw,46px); line-height:1.2; font-weight:800; letter-spacing:-0.02em; margin-bottom:18px;}
+  .lede{font-size:17px; color:var(--ink2); max-width:560px;}
+
+  section{padding:48px 0; border-bottom:1px solid var(--rule);}
+  .sec-label{font-size:12px; letter-spacing:0.2em; color:var(--muted); text-transform:uppercase; margin-bottom:24px;}
+  h2{font-size:24px; font-weight:700; letter-spacing:-0.01em; margin-bottom:8px;}
+
+  /* steps */
+  .step{display:flex; gap:20px; padding:22px 0; border-top:1px solid var(--rule);}
+  .step:first-of-type{border-top:none;}
+  .num{flex:0 0 44px; font-size:26px; font-weight:800; color:var(--ink); line-height:1;}
+  .step h3{font-size:17px; font-weight:700; margin-bottom:6px;}
+  .step p{font-size:15px; color:var(--ink2);}
+  .stores{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;}
+  .store{display:inline-flex; align-items:center; gap:8px; border:1px solid var(--ink); padding:9px 16px; font-size:13px; font-weight:600; text-decoration:none; transition:background .15s,color .15s;}
+  .store:hover{background:var(--ink); color:var(--paper);}
+
+  /* platform toggle */
+  .toggle{display:inline-flex; border:1px solid var(--rule); margin-top:12px;}
+  .toggle button{appearance:none; border:none; background:transparent; padding:8px 18px; font-size:13px; font-weight:600; color:var(--muted); cursor:pointer; font-family:inherit;}
+  .toggle button.on{background:var(--ink); color:var(--paper);}
+  .scan-note{margin-top:12px; font-size:14px; color:var(--ink2); background:var(--paper2); border:1px solid var(--rule); padding:12px 14px;}
+
+  /* QR card */
+  .qr-card{display:flex; gap:32px; align-items:center; flex-wrap:wrap; background:var(--white); border:1px solid var(--rule); padding:32px;}
+  .qr-box{flex:0 0 220px; width:220px; height:220px; border:1px solid var(--rule); padding:12px; background:var(--white);}
+  .qr-box img{width:100%; height:100%; display:block;}
+  .qr-meta{flex:1; min-width:220px;}
+  .qr-meta .cap{font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-bottom:10px;}
+  .qr-meta p{font-size:15px; color:var(--ink2);}
+  .badge{display:inline-block; margin-top:14px; font-size:12px; font-weight:700; border:1px solid var(--ink); padding:4px 10px; letter-spacing:0.06em;}
+
+  /* url copy */
+  .url-row{display:flex; gap:0; margin-top:16px; border:1px solid var(--rule); background:var(--white);}
+  .url-row code{flex:1; padding:13px 14px; font-size:12.5px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--ink2); overflow-x:auto; white-space:nowrap;}
+  .copy-btn{appearance:none; border:none; border-left:1px solid var(--rule); background:var(--paper2); padding:0 20px; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit; color:var(--ink); transition:background .15s;}
+  .copy-btn:hover{background:var(--paper3);}
+  .copy-btn.done{background:var(--ink); color:var(--paper);}
+  .hint{font-size:13px; color:var(--muted); margin-top:10px;}
+
+  /* notes */
+  .notes{list-style:none;}
+  .notes li{position:relative; padding:10px 0 10px 22px; font-size:15px; color:var(--ink2); border-top:1px solid var(--rule);}
+  .notes li:first-child{border-top:none;}
+  .notes li::before{content:""; position:absolute; left:2px; top:19px; width:7px; height:1px; background:var(--ink);}
+
+  /* alt */
+  .alt{background:var(--paper2); border:1px solid var(--rule); padding:24px;}
+  .alt h3{font-size:16px; font-weight:700; margin-bottom:6px;}
+  .alt p{font-size:14px; color:var(--ink2);}
+  .alt .status{display:inline-block; margin-top:12px; font-size:12px; font-weight:700; color:var(--muted); border:1px solid var(--rule); padding:4px 10px;}
+
+  footer{padding:40px 0 64px;}
+  footer .fine{font-size:12.5px; color:var(--muted);}
+  footer .wordmark{font-size:15px; margin-bottom:12px; display:block;}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <span class="wordmark">MINGO</span>
+    <span class="tag">Mobile · 접속 안내</span>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Expo Go 미리보기</div>
+    <h1>폰에서 바로<br />MINGO를 실행하세요</h1>
+    <p class="lede">별도 설치 파일 없이, Expo Go 앱에서 QR 코드만 스캔하면 최신 미리보기가 열립니다. Android와 iPhone 모두 지원합니다.</p>
+  </div>
+
+  <section>
+    <div class="sec-label">시작하기 · 3단계</div>
+    <div class="step">
+      <div class="num">01</div>
+      <div>
+        <h3>Expo Go 설치</h3>
+        <p>사용 중인 폰의 스토어에서 Expo Go 앱을 설치하세요.</p>
+        <div class="stores">
+          <a class="store" href="https://apps.apple.com/app/expo-go/id982107779" target="_blank" rel="noopener"> App Store (iPhone)</a>
+          <a class="store" href="https://play.google.com/store/apps/details?id=host.exp.exponent" target="_blank" rel="noopener">▶ Google Play (Android)</a>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">02</div>
+      <div>
+        <h3>QR 코드 스캔</h3>
+        <p>아래 QR 코드를 스캔하면 앱이 열립니다. 플랫폼에 따라 스캔 방법이 다릅니다.</p>
+        <div class="toggle" role="tablist">
+          <button class="on" data-p="android" type="button">Android</button>
+          <button data-p="ios" type="button">iPhone</button>
+        </div>
+        <div class="scan-note" id="scan-note">Expo Go 앱을 열고 <strong>“Scan QR code”</strong>를 눌러 아래 QR을 스캔하세요.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">03</div>
+      <div>
+        <h3>앱 실행</h3>
+        <p>스캔하면 MINGO 미리보기가 바로 열립니다. 최초 실행 시 로딩에 몇 초가 걸릴 수 있습니다. 웹과 동일한 계정으로 로그인하거나 새로 가입하세요.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label">QR 코드</div>
+    <div class="qr-card">
+      <div class="qr-box"><img src="assets/qr.svg" alt="MINGO Expo Go 접속 QR 코드" /></div>
+      <div class="qr-meta">
+        <div class="cap">Expo Go로 스캔</div>
+        <p>이 QR은 <strong>preview 채널의 항상 최신 업데이트</strong>를 가리킵니다. 앱이 업데이트되면 다시 스캔할 필요 없이 자동으로 최신 버전이 열립니다.</p>
+        <span class="badge">SDK 58 · Expo Go</span>
+      </div>
+    </div>
+    <div class="url-row">
+      <code id="exp-url">exp://u.expo.dev/d52c6889-0ab8-48da-9528-16529d103159?runtime-version=exposdk%3A58.0.0&amp;channel-name=preview</code>
+      <button class="copy-btn" id="copy-btn" type="button">복사</button>
+    </div>
+    <p class="hint">스캔이 어려우면 Expo Go의 <strong>“Enter URL manually”</strong>에 위 주소를 붙여넣으세요.</p>
+  </section>
+
+  <section>
+    <div class="sec-label">참고 사항</div>
+    <ul class="notes">
+      <li>Expo Go는 <strong>SDK 58을 지원하는 최신 버전</strong>이어야 합니다. 스토어에서 자동 업데이트를 권장합니다.</li>
+      <li>인터넷 연결이 필요합니다. 미리보기는 실제 MINGO 서버(프로덕션 API)에 연결됩니다.</li>
+      <li>로그인·회원가입은 MINGO 웹과 동일한 계정을 사용합니다.</li>
+      <li>미리보기는 시연·검토용입니다. 정식 배포 버전과 일부 동작이 다를 수 있습니다.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-label">다른 방법</div>
+    <div class="alt">
+      <h3>Android APK 직접 설치</h3>
+      <p>Expo Go 없이 설치 파일(APK)을 받아 바로 설치하는 방법도 제공합니다. Android 폰에서 “출처를 알 수 없는 앱 설치”를 허용한 뒤 APK를 열어 설치하세요.</p>
+      <span class="status" id="apk-status">빌드 완료 후 다운로드 링크가 제공됩니다</span>
+    </div>
+  </section>
+
+  <footer>
+    <span class="wordmark">MINGO</span>
+    <p class="fine">예술의 가치, 더 투명하게. · 본 안내는 외부 미리보기 접속용입니다.</p>
+  </footer>
+</div>
+
+<script>
+  // platform toggle
+  var notes = {
+    android: 'Expo Go 앱을 열고 <strong>“Scan QR code”</strong>를 눌러 아래 QR을 스캔하세요.',
+    ios: 'iPhone 기본 <strong>카메라 앱</strong>으로 아래 QR을 비추면 나타나는 알림을 탭해 Expo Go로 여세요.'
+  };
+  var btns = document.querySelectorAll('.toggle button');
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      btns.forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      document.getElementById('scan-note').innerHTML = notes[b.dataset.p];
+    });
+  });
+  // copy url
+  var copyBtn = document.getElementById('copy-btn');
+  copyBtn.addEventListener('click', function(){
+    var url = document.getElementById('exp-url').textContent;
+    function done(){ copyBtn.textContent='복사됨'; copyBtn.classList.add('done');
+      setTimeout(function(){ copyBtn.textContent='복사'; copyBtn.classList.remove('done'); },1800); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done).catch(function(){ fallback(url); done(); });
+    } else { fallback(url); done(); }
+  });
+  function fallback(t){ var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+</script>
+</body>
+</html>
