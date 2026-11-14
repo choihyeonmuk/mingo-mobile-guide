@@ -1,163 +1,38 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>MINGO · 모바일 앱 설치 안내</title>
-<meta name="description" content="MINGO 모바일 앱(Android APK)을 설치하세요. 설치 후에는 최신 업데이트가 자동으로 반영됩니다." />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-<style>
-  :root{
-    --paper:#FDFDFC; --paper2:#F7F7F5; --paper3:#F0F0EE;
-    --ink:#2E2E2E; --ink2:#545454; --muted:#737373;
-    --rule:#D1D1CF; --danger:#8A1F1F; --white:#FFFFFF;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{
-    font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
-    background:var(--paper); color:var(--ink);
-    -webkit-font-smoothing:antialiased; line-height:1.6;
-  }
-  .wrap{max-width:760px; margin:0 auto; padding:0 24px;}
-  a{color:inherit;}
-
-  /* header */
-  header{border-bottom:1px solid var(--rule); background:var(--paper);}
-  .nav{display:flex; align-items:center; justify-content:space-between; height:64px;}
-  .wordmark{font-size:20px; font-weight:800; letter-spacing:0.28em;}
-  .nav .tag{font-size:12px; letter-spacing:0.14em; color:var(--muted); text-transform:uppercase;}
-
-  /* hero */
-  .hero{padding:64px 0 40px; border-bottom:1px solid var(--rule);}
-  .eyebrow{font-size:12px; letter-spacing:0.22em; color:var(--muted); text-transform:uppercase; margin-bottom:18px;}
-  h1{font-size:clamp(30px,6vw,46px); line-height:1.2; font-weight:800; letter-spacing:-0.02em; margin-bottom:18px;}
-  .lede{font-size:17px; color:var(--ink2); max-width:580px;}
-
-  section{padding:48px 0; border-bottom:1px solid var(--rule);}
-  .sec-label{font-size:12px; letter-spacing:0.2em; color:var(--muted); text-transform:uppercase; margin-bottom:24px;}
-  h2{font-size:24px; font-weight:700; letter-spacing:-0.01em; margin-bottom:8px;}
-
-  /* steps */
-  .step{display:flex; gap:20px; padding:22px 0; border-top:1px solid var(--rule);}
-  .step:first-of-type{border-top:none;}
-  .num{flex:0 0 44px; font-size:26px; font-weight:800; color:var(--ink); line-height:1;}
-  .step h3{font-size:17px; font-weight:700; margin-bottom:6px;}
-  .step p{font-size:15px; color:var(--ink2);}
-
-  /* download card */
-  .dl-card{background:var(--white); border:1px solid var(--ink); padding:32px; display:flex; flex-direction:column; gap:16px;}
-  .dl-card .cap{font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted);}
-  .dl-card p{font-size:15px; color:var(--ink2);}
-  .dl-btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; align-self:flex-start; border:1px solid var(--ink); background:var(--ink); color:var(--paper); padding:14px 28px; font-size:15px; font-weight:700; text-decoration:none; letter-spacing:0.02em; transition:background .15s,color .15s;}
-  .dl-btn:hover{background:var(--paper); color:var(--ink);}
-  .badge{display:inline-block; font-size:12px; font-weight:700; border:1px solid var(--ink); padding:4px 10px; letter-spacing:0.06em; align-self:flex-start;}
-  .hint{font-size:13px; color:var(--muted); margin-top:6px;}
-
-  /* auto-update highlight */
-  .update{background:var(--paper2); border:1px solid var(--rule); padding:24px;}
-  .update h3{font-size:16px; font-weight:700; margin-bottom:6px;}
-  .update p{font-size:14.5px; color:var(--ink2);}
-
-  /* notes */
-  .notes{list-style:none;}
-  .notes li{position:relative; padding:10px 0 10px 22px; font-size:15px; color:var(--ink2); border-top:1px solid var(--rule);}
-  .notes li:first-child{border-top:none;}
-  .notes li::before{content:""; position:absolute; left:2px; top:19px; width:7px; height:1px; background:var(--ink);}
-
-  /* alt / info box */
-  .alt{background:var(--paper2); border:1px solid var(--rule); padding:24px;}
-  .alt h3{font-size:16px; font-weight:700; margin-bottom:6px;}
-  .alt p{font-size:14px; color:var(--ink2);}
-  .alt .status{display:inline-block; margin-top:12px; font-size:12px; font-weight:700; color:var(--muted); border:1px solid var(--rule); padding:4px 10px;}
-
-  footer{padding:40px 0 64px;}
-  footer .fine{font-size:12.5px; color:var(--muted);}
-  footer .wordmark{font-size:15px; margin-bottom:12px; display:block;}
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MINGO 작업대 · 가이드와 기술 검토</title>
+<meta name="description" content="MINGO의 모바일 설치 안내와 ART PASS 블록체인 기술 검토 보고서를 한곳에서 확인합니다.">
+<link rel="stylesheet" href="assets/workbench.css">
 </head>
 <body>
-<header>
-  <div class="wrap nav">
-    <span class="wordmark">MINGO</span>
-    <span class="tag">Mobile · 설치 안내</span>
-  </div>
-</header>
-
-<div class="wrap">
-  <div class="hero">
-    <div class="eyebrow">Android 앱 설치</div>
-    <h1>폰에 MINGO를<br />설치하세요</h1>
-    <p class="lede">APK 파일을 받아 설치하면 바로 실행됩니다. 설치 후에는 <strong>최신 업데이트가 자동으로 반영</strong>되어, 다시 설치할 필요가 없습니다. 웹과 동일한 계정으로 로그인하세요.</p>
-  </div>
-
-  <section>
-    <div class="sec-label">앱 다운로드</div>
-    <div class="dl-card">
-      <div class="cap">Android · APK</div>
-      <p>아래 버튼을 눌러 APK 파일을 다운로드하세요. Android 폰에서 바로 설치할 수 있습니다.</p>
-      <a class="dl-btn" href="https://expo.dev/artifacts/eas/D10cQNuM06lpQvPUGpzkoNafRk5pHOhT-XoEkKPHYfo.apk">APK 다운로드</a>
-      <span class="badge">MINGO · SDK 58</span>
-      <p class="hint">파일 크기는 약 85MB입니다. Wi-Fi 환경에서 다운로드를 권장합니다.</p>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-label">설치 · 3단계</div>
-    <div class="step">
-      <div class="num">01</div>
-      <div>
-        <h3>APK 다운로드</h3>
-        <p>위 <strong>APK 다운로드</strong> 버튼을 눌러 파일을 받습니다. 다운로드가 완료되면 알림창이나 파일 앱에서 파일을 여세요.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="num">02</div>
-      <div>
-        <h3>설치 허용 후 설치</h3>
-        <p>“출처를 알 수 없는 앱 설치” 안내가 나오면 <strong>허용</strong>을 눌러 진행하세요. 이는 Android에서 스토어 외부 앱을 설치할 때의 정상 절차입니다. 이후 <strong>설치</strong>를 누르면 됩니다.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="num">03</div>
-      <div>
-        <h3>실행 · 로그인</h3>
-        <p>설치가 끝나면 MINGO 앱을 실행하세요. 웹에서 쓰던 계정으로 로그인하거나 새로 가입하면 됩니다. 최초 실행 시 로딩에 몇 초가 걸릴 수 있습니다.</p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-label">자동 업데이트</div>
-    <div class="update">
-      <h3>한 번 설치하면, 계속 최신 상태</h3>
-      <p>앱을 실행할 때마다 서버에서 최신 업데이트를 확인해 <strong>자동으로 내려받고 적용</strong>합니다. 기능이 개선되거나 화면이 바뀌어도 APK를 다시 설치할 필요가 없습니다. 앱을 완전히 종료했다가 다시 열면 최신 버전이 반영됩니다.</p>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-label">참고 사항</div>
-    <ul class="notes">
-      <li>인터넷 연결이 필요합니다. 앱은 실제 MINGO 서버(프로덕션 API)에 연결됩니다.</li>
-      <li>로그인·회원가입은 MINGO 웹과 동일한 계정을 사용합니다.</li>
-      <li>미리보기는 시연·검토용입니다. 정식 배포 버전과 일부 동작이 다를 수 있습니다.</li>
-      <li>현재 Android APK로 제공됩니다. iPhone(iOS) 버전은 준비 중입니다.</li>
-    </ul>
-  </section>
-
-  <section>
-    <div class="sec-label">Expo Go 안내</div>
-    <div class="alt">
-      <h3>Expo Go QR 방식은 더 이상 지원되지 않습니다</h3>
-      <p>Expo의 정책 변경(2026년 5월)으로, Expo Go에서는 프로젝트 소유자·멤버로 로그인한 경우에만 미리보기를 열 수 있습니다. 따라서 QR 코드를 스캔해 외부에서 접속하는 방식은 사용할 수 없어, <strong>APK 직접 설치</strong>로 안내드립니다. APK도 자동 업데이트를 지원하므로 업데이트 속도는 동일합니다.</p>
-      <span class="status">APK 설치 = 가장 확실한 방법</span>
-    </div>
-  </section>
-
-  <footer>
-    <span class="wordmark">MINGO</span>
-    <p class="fine">예술의 가치, 더 투명하게. · 본 안내는 외부 미리보기 접속용입니다.</p>
-  </footer>
-</div>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<header class="site-header"><div class="shell header-inner">
+<a class="brand" href="index.html" aria-label="MINGO 작업대 홈">MINGO</a>
+<nav class="site-nav" aria-label="주요 메뉴"><a href="#documents" aria-current="page">문서 목록</a><a href="mobile.html">모바일 설치</a><a href="https://github.com/choihyeonmuk/mingo-mobile-guide">GitHub 소스 ↗</a></nav>
+</div></header>
+<main id="main" class="shell">
+<section class="hero" aria-labelledby="hub-title">
+<div><p class="eyebrow">MINGO / DOCUMENTATION</p><h1 id="hub-title">MINGO 작업대</h1><p class="lede">설치에 필요한 안내부터 다음 단계를 위한 기술 검토까지.<br>함께 확인하고 쌓아가는 MINGO의 공개 문서입니다.</p></div>
+<aside class="hero-note" aria-label="문서 안내"><strong>실행 안내와 검토 제안을 구분합니다.</strong>설치 가이드는 사용 방법을, 기술 보고서는 구현 전 선택지와 확인할 과제를 담습니다.</aside>
+</section>
+<section id="documents" aria-labelledby="documents-title">
+<div class="section-head"><h2 id="documents-title">문서 목록</h2><p>목적에 맞는 문서부터 읽어보세요.</p></div>
+<article class="document-row">
+<span class="document-number" aria-hidden="true">01</span>
+<div><p class="category">사용 가이드 / ANDROID</p><h3><a href="mobile.html">모바일 앱 설치 안내 <span aria-hidden="true">↗</span></a></h3><p>기존 APK 다운로드와 설치 순서, 자동 업데이트 및 접속 시 참고 사항을 확인합니다.</p><a class="text-link" href="mobile.html">설치 안내 열기 →</a></div>
+<div class="document-meta"><span class="status">설치 안내</span><p>기존 안내·APK 링크 유지<br>작업대 수록 <time datetime="2026-11-14">2026-11-14</time></p></div>
+</article>
+<article class="document-row">
+<span class="document-number" aria-hidden="true">02</span>
+<div><p class="category">기술 검토 / ART PASS</p><h3><a href="reports/blockchain.html">ART PASS 블록체인 조합 검토 <span aria-hidden="true">↗</span></a></h3><p>Base와 NFT 없는 전용 등록부를 중심으로 대안, 신뢰의 한계, 데이터 공개 정책과 단계별 검증 과제를 정리했습니다.</p><a class="text-link" href="reports/blockchain.html">전체 보고서 읽기 →</a></div>
+<div class="document-meta"><span class="status">기술선정 제안</span><p>구현 전 검토 · v1.1<br>조사 <time datetime="2026-11-10">2026-11-10</time>정리 <time datetime="2026-11-14">2026-11-14</time></p></div>
+</article>
+</section>
+<section class="publication-note" aria-labelledby="publication-title"><h2 id="publication-title">공개 문서로 남기는 원칙</h2><div><p>이 작업대는 기능의 배포 현황판이 아닙니다. 보고서의 권고는 구현·보안 감사·실제 비용 측정의 완료를 뜻하지 않습니다. 계정 정보와 비밀키, 개인정보는 공개 문서에 넣지 않습니다.</p><a class="text-link" href="README.md">문서 편집·발행 방법 →</a></div></section>
+</main>
+<footer class="site-footer"><div class="shell footer-inner"><p>MINGO 작업대 · 가이드와 검토의 기록</p><a href="https://github.com/choihyeonmuk/mingo-mobile-guide">공개 저장소 ↗</a></div></footer>
 </body>
 </html>
