@@ -9,7 +9,11 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
-from render_report import SOURCE, TARGET, build, inline, render  # noqa: E402
+from render_report import REPORTS, SOURCE, TARGET, build, inline, render  # noqa: E402
+
+USDT_META = REPORTS["usdt-payment"]
+USDT_SOURCE = USDT_META["source"]
+USDT_TARGET = USDT_META["target"]
 
 
 class Page(HTMLParser):
@@ -36,7 +40,7 @@ class SiteTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.pages = {path: Page(path.read_text(encoding="utf-8")) for path in
-                     [ROOT / "index.html", ROOT / "mobile.html", TARGET]}
+                     [ROOT / "index.html", ROOT / "mobile.html", TARGET, USDT_TARGET]}
 
     def test_semantics_and_skip_links(self):
         for path, page in self.pages.items():
@@ -98,6 +102,30 @@ class SiteTests(unittest.TestCase):
         for anchor, _ in headings:
             self.assertTrue(any(a.get("href") == "#" + anchor for a in page.attrs("a")))
         self.assertTrue(any(a.get("href") == SOURCE.name and "download" in a for a in page.attrs("a")))
+
+    def test_usdt_report_matches_source(self):
+        source = USDT_SOURCE.read_text(encoding="utf-8")
+        expected = build(source, eyebrow=USDT_META["eyebrow"],
+                         description=USDT_META["description"], md_name=USDT_SOURCE.name)
+        self.assertEqual(USDT_TARGET.read_text(encoding="utf-8"), expected, "run tools/render_report.py")
+        visible = normalize("".join(self.pages[USDT_TARGET].text))
+        for line in source.splitlines():
+            line = re.sub(r"^(?:#{1,6} |>|- |\d+\. )\s*", "", line).replace("**", "").strip()
+            if line and line != "---":
+                self.assertIn(normalize(line), visible)
+        self.assertIn("2026-11-16", visible)
+        self.assertIn("아르투", visible)
+        self.assertIn("USDC", visible)
+        self.assertIn("초안", visible)
+
+    def test_usdt_toc_and_source_download(self):
+        page = self.pages[USDT_TARGET]
+        _, headings = render(USDT_SOURCE.read_text(encoding="utf-8"))
+        self.assertEqual(len(headings), sum(1 for line in USDT_SOURCE.read_text(encoding="utf-8").splitlines() if line.startswith("## ")))
+        self.assertGreaterEqual(len(headings), 10)
+        for anchor, _ in headings:
+            self.assertTrue(any(a.get("href") == "#" + anchor for a in page.attrs("a")))
+        self.assertTrue(any(a.get("href") == USDT_SOURCE.name and "download" in a for a in page.attrs("a")))
 
     def test_existing_apk_preserved(self):
         expected = "https://expo.dev/artifacts/eas/D10cQNuM06lpQvPUGpzkoNafRk5pHOhT-XoEkKPHYfo.apk"

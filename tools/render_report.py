@@ -10,8 +10,22 @@ from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "reports/mingo-art-pass-blockchain.md"
-TARGET = ROOT / "reports/blockchain.html"
+REPORTS = {
+    "blockchain": {
+        "source": ROOT / "reports" / "mingo-art-pass-blockchain.md",
+        "target": ROOT / "reports" / "blockchain.html",
+        "eyebrow": "ART PASS / 기술선정 제안 · 구현 전 검토",
+        "description": "ART PASS를 위한 Base 비토큰형 등록부 권고, 대안과 신뢰의 한계, 구현 전 검증 과제를 정리한 기술선정 제안입니다.",
+    },
+    "usdt-payment": {
+        "source": ROOT / "reports" / "mingo-usdt-payment-draft.md",
+        "target": ROOT / "reports" / "usdt-payment.html",
+        "eyebrow": "MINGO / 결제 도입 검토 초안 · 구현 전",
+        "description": "MINGO USDT(달러 스테이블코인) 결제 도입 검토 초안 — 방식 비교, 아르투 사례, 비수탁 구조, 한국 규제 체크리스트, 리스크와 단계 제안.",
+    },
+}
+SOURCE = REPORTS["blockchain"]["source"]
+TARGET = REPORTS["blockchain"]["target"]
 TOKEN = re.compile(r"(`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*|https?://[^\s<>]+)")
 
 
@@ -86,7 +100,11 @@ def render(source):
     return "\n".join(blocks), headings
 
 
-def build(source):
+def build(source, *, eyebrow=None, description=None, md_name=None):
+    meta = REPORTS["blockchain"]
+    eyebrow = meta["eyebrow"] if eyebrow is None else eyebrow
+    description = meta["description"] if description is None else description
+    md_name = meta["source"].name if md_name is None else md_name
     title = source.splitlines()[0].removeprefix("# ")
     body, headings = render(source)
     toc = "\n".join(f'<li><a href="#{anchor}">{escape(text)}</a></li>' for anchor, text in headings)
@@ -97,7 +115,7 @@ def build(source):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{escape(title)} · MINGO 작업대</title>
-<meta name="description" content="ART PASS를 위한 Base 비토큰형 등록부 권고, 대안과 신뢰의 한계, 구현 전 검증 과제를 정리한 기술선정 제안입니다.">
+<meta name="description" content="{escape(description, quote=True)}">
 <link rel="stylesheet" href="../assets/workbench.css">
 </head>
 <body>
@@ -107,9 +125,9 @@ def build(source):
 <nav class="site-nav" aria-label="주요 메뉴"><a href="../index.html">작업대</a><a href="../mobile.html">모바일 설치</a><a href="https://github.com/choihyeonmuk/mingo-mobile-guide">GitHub 소스 ↗</a></nav>
 </div></header>
 <main id="main" class="shell">
-<div class="report-intro"><p class="eyebrow">ART PASS / 기술선정 제안 · 구현 전 검토</p>
+<div class="report-intro"><p class="eyebrow">{escape(eyebrow)}</p>
 <h1>{escape(title)}</h1>
-<div class="report-actions"><a href="mingo-art-pass-blockchain.md" download>Markdown 원문 다운로드 ↓</a><a href="#contents">목차로 이동 →</a><a href="../index.html">← 작업대</a></div>
+<div class="report-actions"><a href="{md_name}" download>Markdown 원문 다운로드 ↓</a><a href="#contents">목차로 이동 →</a><a href="../index.html">← 작업대</a></div>
 </div>
 <div class="report-layout">
 <nav class="toc" id="contents" aria-labelledby="contents-title"><h2 id="contents-title">이 보고서의 목차</h2><ol>
@@ -121,12 +139,17 @@ def build(source):
 </article>
 </div>
 </main>
-<footer class="site-footer"><div class="shell footer-inner"><p>MINGO 작업대 · 공개 기술 검토 문서</p><a href="mingo-art-pass-blockchain.md" download>Markdown 원문 다운로드 ↓</a></div></footer>
+<footer class="site-footer"><div class="shell footer-inner"><p>MINGO 작업대 · 공개 기술 검토 문서</p><a href="{md_name}" download>Markdown 원문 다운로드 ↓</a></div></footer>
 </body>
 </html>
 '''
 
 
 if __name__ == "__main__":
-    TARGET.write_text(build(SOURCE.read_text(encoding="utf-8")), encoding="utf-8")
-    print("Rendered reports/blockchain.html from reports/mingo-art-pass-blockchain.md")
+    for key, meta in REPORTS.items():
+        meta["target"].write_text(
+            build(meta["source"].read_text(encoding="utf-8"),
+                  eyebrow=meta["eyebrow"], description=meta["description"],
+                  md_name=meta["source"].name),
+            encoding="utf-8")
+        print(f"Rendered {meta['target'].relative_to(ROOT)} from {meta['source'].relative_to(ROOT)}")
